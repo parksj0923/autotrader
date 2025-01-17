@@ -2,7 +2,7 @@ package upbit
 
 import (
 	"autotrader/main/config"
-	"autotrader/main/domain/service/exchange"
+	"autotrader/main/utils"
 	"fmt"
 	"testing"
 )
@@ -14,7 +14,7 @@ func TestKeys(t *testing.T) {
 }
 
 func TestGetJwtTokenWithNilParams(t *testing.T) {
-	token, err := exchange.GenerateJWT(nil)
+	token, err := utils.GenerateJWT(nil)
 	if err != nil {
 		return
 	}

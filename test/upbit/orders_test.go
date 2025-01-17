@@ -9,11 +9,11 @@ import (
 	"time"
 )
 
-func TestGetAccounts(t *testing.T) {
+func TestGetOrderChance(t *testing.T) {
 	ctx := context.Background()
 	var restyClient = resty.NewDefaultRestyClient(true, 10*time.Second)
 	assetService := exchange.NewExchangeService(restyClient)
-	result, err := assetService.GetAccounts(ctx)
+	result, err := assetService.GetOrderChance(ctx, "KRW-BTC")
 	if err != nil {
 		fmt.Println(err)
 		return

@@ -13,7 +13,7 @@ const (
 )
 
 // GetAccounts : 업비트 전체 계좌 조회 API 호출
-func (service *exchangeService) GetAccounts(ctx context.Context) ([]exchange.AccountResponse, error) {
+func (service *exchangeService) GetAccounts(ctx context.Context) ([]protocols.AccountResponse, error) {
 	token, err := utils.GenerateJWT(nil)
 	if err != nil {
 		return nil, fmt.Errorf("JWT 생성 실패: %w", err)
@@ -31,7 +31,7 @@ func (service *exchangeService) GetAccounts(ctx context.Context) ([]exchange.Acc
 		return nil, fmt.Errorf("API 응답 오류: %d, %s", resp.StatusCode(), resp.String())
 	}
 
-	var accounts []exchange.AccountResponse
+	var accounts []protocols.AccountResponse
 	if err := json.Unmarshal(resp.Body(), &accounts); err != nil {
 		return nil, fmt.Errorf("JSON 파싱 실패: %w", err)
 	}

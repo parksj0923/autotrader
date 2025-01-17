@@ -1,4 +1,4 @@
-package exchange
+package protocols
 
 // AccountResponse : 업비트 계좌 정보 구조체
 type AccountResponse struct {

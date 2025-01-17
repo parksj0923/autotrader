@@ -15,4 +15,5 @@ func ExchangeRoute() {
 	v1 := exchange.Group("/v1")
 
 	v1.Get("/accounts", exchangeHandler.GetAccountInfoHandler())
+	v1.Get("/order-chance", exchangeHandler.GetOrderChanceInfo())
 }

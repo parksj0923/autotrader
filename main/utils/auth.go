@@ -4,8 +4,11 @@ import (
 	"autotrader/main/config"
 	"crypto/sha512"
 	"encoding/hex"
+	"fmt"
 	"math/rand"
+	"sort"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -25,17 +28,7 @@ func GenerateJWT(params map[string]string) (string, error) {
 	}
 
 	if len(params) > 0 {
-		queryString := ""
-		for k, v := range params {
-			queryString += k + "=" + v + "&"
-		}
-		queryString = queryString[:len(queryString)-1] // 마지막 `&` 제거
-
-		hash := sha512.New()
-		hash.Write([]byte(queryString))
-		queryHash := hex.EncodeToString(hash.Sum(nil))
-
-		claims["query_hash"] = queryHash
+		claims["query_hash"] = MakeQueryHash(params)
 		claims["query_hash_alg"] = "SHA512"
 	}
 
@@ -45,4 +38,29 @@ func GenerateJWT(params map[string]string) (string, error) {
 		return "", err
 	}
 	return signedToken, nil
+}
+
+// MakeQueryHash : Helper (쿼리 스트링 해시가 필요한 경우, GenerateJWT 내에서 처리하지만
+// 만약 수동으로 해시를 만들거나 파라미터 구조를 다룰 일이 있을 때 참조)
+func MakeQueryHash(params map[string]string) string {
+	if len(params) == 0 {
+		return ""
+	}
+	keys := make([]string, 0, len(params))
+	for k := range params {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
+	var queryParts []string
+	for _, k := range keys {
+		// url.QueryEscape 사용 시 문서 예시와 다를 수 있으나, Upbit는 일반 form 인코딩도 인식
+		// 정확하게는 Upbit가 자동 디코딩함. 문제가 된다면 QueryEscape를 적용하거나, 안 하거나 통일해야 함
+		queryParts = append(queryParts, fmt.Sprintf("%s=%s", k, params[k]))
+	}
+	queryString := strings.Join(queryParts, "&")
+
+	hash := sha512.New()
+	hash.Write([]byte(queryString))
+	return hex.EncodeToString(hash.Sum(nil))
 }
