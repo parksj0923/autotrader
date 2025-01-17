@@ -70,6 +70,14 @@ func (service *exchangeService) CreateOrder(ctx context.Context, market, side, v
 		params["identifier"] = identifier
 	}
 
+	qParams := make([]resty.QueryParam, 0)
+	for key, value := range params {
+		qParams = append(qParams, resty.QueryParam{
+			Key:   key,
+			Value: value,
+		})
+	}
+
 	token, err := utils.GenerateJWT(params)
 	if err != nil {
 		return nil, fmt.Errorf("JWT 생성 실패: %w", err)
@@ -79,7 +87,7 @@ func (service *exchangeService) CreateOrder(ctx context.Context, market, side, v
 		"Authorization": "Bearer " + token,
 	}
 
-	resp, err := service.resty.MakeRequest(ctx, nil, header).Post(ORDERSURL)
+	resp, err := service.resty.MakeRequest(ctx, nil, header).Post(ORDERSURL, qParams...)
 	if err != nil {
 		return nil, fmt.Errorf("API 호출 실패: %w", err)
 	}
