@@ -1,10 +1,10 @@
 package fiberhelpers
 
 import (
+	"autotrader/main/errors"
 	_error "errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
-	"jummechu-api/main/errors"
 )
 
 func DefaultErrorHandler(ctx *fiber.Ctx, err error) error {

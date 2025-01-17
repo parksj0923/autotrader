@@ -1,10 +1,10 @@
 package fiberhelpers
 
 import (
+	"autotrader/main/errors"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
-	"jummechu-api/main/errors"
 	"os"
 	"os/signal"
 	"reflect"

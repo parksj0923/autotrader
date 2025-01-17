@@ -6,6 +6,7 @@ require (
 	github.com/go-jet/jet/v2 v2.12.0
 	github.com/go-resty/resty/v2 v2.16.3
 	github.com/gofiber/fiber/v2 v2.52.6
+	github.com/golang-jwt/jwt/v4 v4.5.1
 )
 
 require (

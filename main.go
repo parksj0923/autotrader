@@ -4,6 +4,8 @@ import (
 	fiberhelpers "autotrader/main/common/fiberhelper"
 	"autotrader/main/common/fiberhelper/middleware"
 	"autotrader/main/common/resty"
+	"autotrader/main/infra"
+	"autotrader/main/route"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"log"
@@ -23,17 +25,20 @@ func main() {
 		AllowHeaders: "*",
 	}))
 
-	restyClient := resty.NewDefaultRestyClient(true, 20*time.Second)
+	restyClient := resty.NewDefaultRestyClient(true, 10*time.Second)
 
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
-
 	api := app.Group("/api")
 	err := infra.Init(api, restyClient)
 	if err != nil {
 		log.Panic(err.Error())
 		panic(err.Error())
 	}
+
+	route.ExchangeRoute()
+
+	fiberhelpers.ListenWithGraceFullyShutdown(app, port)
 }
