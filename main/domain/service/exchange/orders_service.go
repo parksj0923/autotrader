@@ -15,7 +15,7 @@ const (
 	OrdersUrl      = "https://api.upbit.com/v1/orders"
 )
 
-// GetOrderChance : 특정 market에 대한 주문 가능 정보(최소 주문 금액, 잔고 등)를 조회합니다
+// GetOrderChance : 특정 market에 대한 주문 가능 정보(최소 주문 금액, 잔고 등)를 조회한다.
 // origin api : GET /orders/chance
 func (service *exchangeService) GetOrderChance(ctx context.Context, market string) (*protocols.OrderChanceResponse, error) {
 	params := map[string]string{
