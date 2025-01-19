@@ -9,7 +9,9 @@ import (
 type ExchangeService interface {
 	GetAccounts(ctx context.Context) ([]protocols.AccountResponse, error)
 	GetOrderChance(ctx context.Context, market string) (*protocols.OrderChanceResponse, error)
-	CreateOrder(ctx context.Context, market, side, volume, price, ordType, identifier string) (*protocols.OrderResponse, error)
+	GetOrder(ctx context.Context, uuidOrIdentifier string, isIdentifier bool) (*protocols.OrderResponse, error)
+	CreateOrder(ctx context.Context, req protocols.CreateOrderRequest) (*protocols.OrderResponse, error)
+	CancelOrder(ctx context.Context, uuidOrIdentifier string, isIdentifier bool) (*protocols.OrderResponse, error)
 }
 
 type exchangeService struct {

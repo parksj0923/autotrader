@@ -39,6 +39,6 @@ func main() {
 	}
 
 	route.ExchangeRoute()
-
+	route.QuotationRoute()
 	fiberhelpers.ListenWithGraceFullyShutdown(app, port)
 }

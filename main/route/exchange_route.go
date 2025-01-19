@@ -16,4 +16,9 @@ func ExchangeRoute() {
 
 	v1.Get("/accounts", exchangeHandler.GetAccountInfoHandler())
 	v1.Get("/order-chance", exchangeHandler.GetOrderChanceInfo())
+	v1.Get("/order", exchangeHandler.GetSingleOrder())
+
+	v1.Post("/order", exchangeHandler.CreateOrder())
+
+	v1.Delete("/order", exchangeHandler.CancelOrder())
 }

@@ -2,10 +2,13 @@ package protocols
 
 import "time"
 
-// ------------------ 주문 가능 정보 (GET /orders/chance) ------------------ //
-
 type OrderChangeQParam struct {
 	Market string `json:"market"`
+}
+
+type SingleOrderQParam struct {
+	Uuid       string `json:"uuid"`
+	Identifier string `json:"identifier"`
 }
 
 type OrderChanceResponse struct {
@@ -43,8 +46,6 @@ type OrderChanceResponse struct {
 	} `json:"ask_account"`
 }
 
-// ------------------ 주문 생성/취소/조회 시 공통 (POST/DELETE/GET /orders) ------------------ //
-
 // OrderResponse : 주문 생성/취소/조회 시 반환되는 객체
 type OrderResponse struct {
 	UUID            string    `json:"uuid"`
@@ -75,6 +76,12 @@ type Trade struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-// OrderListResponse: 주문 목록 조회( GET /orders ) 시 여러 건 반환
-// - API 응답은 배열이므로, []OrderResponse 형태로 받으면 충분.
-//   별도 구조체 없이 []OrderResponse로 직렬화하는 방식도 가능.
+type CreateOrderRequest struct {
+	Market      string `json:"market"`                  // e.g. "KRW-BTC"
+	Side        string `json:"side"`                    // "bid" or "ask"
+	Volume      string `json:"volume"`                  // (필수/옵션) 주문 수량
+	Price       string `json:"price"`                   // (필수/옵션) 1코인당 주문 가격
+	OrdType     string `json:"ord_type"`                // "limit", "price", "market", "best"
+	Identifier  string `json:"identifier"`              // (옵션) 주문 식별 값
+	TimeInForce string `json:"time_in_force,omitempty"` // "ioc", "fok" (옵션)
+}

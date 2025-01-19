@@ -1,4 +1,4 @@
-package upbit
+package exchange
 
 import (
 	"autotrader/main/common/resty"
